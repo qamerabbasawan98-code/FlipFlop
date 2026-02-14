@@ -1,0 +1,305 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title>Calculator</title>
+		<style type="text/css">
+			#gameframe {border:3px solid black;
+						background-color:LightGray;
+						width:1000px;
+						height:550px;
+						position:absolute;
+						top:30px;
+						left:150px;
+						padding:4px;
+						padding-left:10px}
+			.gameButton {width:160px;
+					height:160px;
+					background-color:gray;
+					font-size:24px;
+					}
+			input {width:auto;
+					font-weight:bold;
+					}
+			h5 {display:inline;
+				font-weight:bold;}
+			#displayScreen {width:290px;
+							background-color:white;
+							}
+			#equals {width:290px;
+							}
+		</style>
+	</head>
+	
+	<body bgcolor="black">
+		<div id="gameframe">
+			<form name="scoreForm" style="padding-top:10px;">	
+				<h5 style="padding-left:110px;"> Time Left&nbsp &nbsp</h5><input size="1" type="text" value="60" name="timer" disabled="true"/>
+				<h5 style="padding-left:110px;"> Score &nbsp &nbsp</h5><input size="1" type="text" value="0" name="score" disabled="true"/>
+				<h5 style="padding-left:130px;"></h5><input type="button" value="Reset" onClick="resettt()"/>
+			</form>	
+			<br/>
+			<form name="gameForm">
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn1" name="one" onClick="b1()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn2" name="two" onClick="b2()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn3" name="three" onClick="b3()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn4" name="four" onClick="b4()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn5" name="five" onClick="b5()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn6" name="six" onClick="b6()" />
+				<br/>
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn7" name="seven" onClick="b7()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn8" name="eight" onClick="b8()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn9" name="nine" onClick="b9()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn10" name="ten" onClick="b10()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn11" name="eleven" onClick="b11()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn12" name="twelve" onClick="b12()" />
+				<br/>
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn13" name="thirteen" onClick="b13()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn14" name="fourteen" onClick="b14()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn15" name="fifteen" onClick="b15()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn16" name="sixteen" onClick="b16()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn17" name="seventeen" onClick="b17()" />
+				<input style="background-image:url('smiling.png');background-repeat: no-repeat;background-position: center;" class="gameButton" type="button" id="bn18" name="eighteen" onClick="b18()" />
+			</form>
+		</div>
+		<script type="text/javascript">
+			var array = new Array(1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9)
+			var indexArray = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+			shuffleArray(array)
+			var cardShown = false
+			var bnId = ''
+			var dupBnId = ''
+			var bnImg = 0,dupBnImg = 0
+			var bnIndex = 0,dupBnIndex = 0
+			var intervalId = setInterval(updateTime,1000)
+			function resettt(){
+				clearInterval(intervalId)
+				intervalId = setInterval(updateTime,1000)
+				enableButtons()
+				sec = 60
+				totalScore = 0
+				scoreForm.score.value = totalScore
+				array = new Array(1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9)
+				indexArray = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+				shuffleArray(array)
+				cardShown = false
+				bnId = ''
+				dupBnId = ''
+				bnImg = 0
+				dupBnImg = 0
+				bnIndex = 0
+				dupBnIndex = 0
+				document.getElementById("bn1").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn2").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn3").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn4").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn5").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn6").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn7").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn8").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn9").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn10").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn11").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn12").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn13").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn14").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn15").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn16").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn17").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn18").style.backgroundImage = "url('smiling.png')"
+				document.getElementById("bn1").style.visibility = "visible";
+				document.getElementById("bn2").style.visibility = "visible";
+				document.getElementById("bn3").style.visibility = "visible";
+				document.getElementById("bn4").style.visibility = "visible";
+				document.getElementById("bn5").style.visibility = "visible";
+				document.getElementById("bn6").style.visibility = "visible";
+				document.getElementById("bn7").style.visibility = "visible";
+				document.getElementById("bn8").style.visibility = "visible";
+				document.getElementById("bn9").style.visibility = "visible";
+				document.getElementById("bn10").style.visibility = "visible";
+				document.getElementById("bn11").style.visibility = "visible";
+				document.getElementById("bn12").style.visibility = "visible";
+				document.getElementById("bn13").style.visibility = "visible";
+				document.getElementById("bn14").style.visibility = "visible";
+				document.getElementById("bn15").style.visibility = "visible";
+				document.getElementById("bn16").style.visibility = "visible";
+				document.getElementById("bn17").style.visibility = "visible";
+				document.getElementById("bn18").style.visibility = "visible";
+			}
+			function b1(){
+				showCard(0,"bn1")
+			}
+			function b2(){
+				showCard(1,"bn2")
+			}
+			function b3(){
+				showCard(2,"bn3")
+			}
+			function b4(){
+				showCard(3,"bn4")
+			}
+			function b5(){
+				showCard(4,"bn5")
+			}
+			function b6(){
+				showCard(5,"bn6")
+			}
+			function b7(){
+				showCard(6,"bn7")
+			}
+			function b8(){
+				showCard(7,"bn8")
+			}
+			function b9(){
+				showCard(8,"bn9")
+			}
+			function b10(){
+				showCard(9,"bn10")
+			}
+			function b11(){
+				showCard(10,"bn11")
+			}
+			function b12(){
+				showCard(11,"bn12")
+			}
+			function b13(){
+				showCard(12,"bn13")
+			}
+			function b14(){
+				showCard(13,"bn14")
+			}
+			function b15(){
+				showCard(14,"bn15")
+			}
+			function b16(){
+				showCard(15,"bn16")
+			}
+			function b17(){
+				showCard(16,"bn17")
+			}
+			function b18(){
+				showCard(17,"bn18")
+			}
+			function showCard(no,ide){
+				var add = "flipflopIcons\\\\" + array[no] + ".png"
+				document.getElementById(ide).style.backgroundImage = "url('"+ add +"')"
+				if (cardShown == false){
+					document.getElementById(ide).disabled = true
+					bnId = ide
+					bnIndex = no
+					cardShown = true
+					bnImg = array[no]
+				}
+				else{
+					stopInput()
+					dupBnId = ide
+					dupBnIndex = no
+					dupBnImg = array[no]
+					setTimeout(checkCondition,750)
+				}
+				
+			}
+			function checkCondition(){
+				cardShown = false
+				if (bnImg == dupBnImg){
+					enableButtons()
+					indexArray[bnIndex] = 1
+					indexArray[dupBnIndex] = 1
+					document.getElementById(bnId).style.visibility = "hidden";
+					document.getElementById(dupBnId).style.visibility = "hidden";
+					totalScore = totalScore + 10
+					scoreForm.score.value = totalScore
+					winCondition()
+				}
+				else{
+					enableButtons()
+					document.getElementById(bnId).disabled = false
+					document.getElementById(bnId).style.backgroundImage = "url('smiling.png')"
+					document.getElementById(dupBnId).style.backgroundImage = "url('smiling.png')"
+				}
+			}
+			function stopInput(){
+				document.getElementById("bn1").disabled = true
+				document.getElementById("bn2").disabled = true
+				document.getElementById("bn3").disabled = true
+				document.getElementById("bn4").disabled = true
+				document.getElementById("bn5").disabled = true
+				document.getElementById("bn6").disabled = true
+				document.getElementById("bn7").disabled = true
+				document.getElementById("bn8").disabled = true
+				document.getElementById("bn9").disabled = true
+				document.getElementById("bn10").disabled = true
+				document.getElementById("bn11").disabled = true
+				document.getElementById("bn12").disabled = true
+				document.getElementById("bn13").disabled = true
+				document.getElementById("bn14").disabled = true
+				document.getElementById("bn15").disabled = true
+				document.getElementById("bn16").disabled = true
+				document.getElementById("bn17").disabled = true
+				document.getElementById("bn18").disabled = true
+			}
+			function enableButtons(){
+				document.getElementById("bn1").disabled = false
+				document.getElementById("bn2").disabled = false
+				document.getElementById("bn3").disabled = false
+				document.getElementById("bn4").disabled = false
+				document.getElementById("bn5").disabled = false
+				document.getElementById("bn6").disabled = false
+				document.getElementById("bn7").disabled = false
+				document.getElementById("bn8").disabled = false
+				document.getElementById("bn9").disabled = false
+				document.getElementById("bn10").disabled = false
+				document.getElementById("bn11").disabled = false
+				document.getElementById("bn12").disabled = false
+				document.getElementById("bn13").disabled = false
+				document.getElementById("bn14").disabled = false
+				document.getElementById("bn15").disabled = false
+				document.getElementById("bn16").disabled = false
+				document.getElementById("bn17").disabled = false
+				document.getElementById("bn18").disabled = false
+			}
+			function winCondition(){
+				conditional = true
+				for (i=0;i<indexArray.length;i++){
+					if(indexArray[i]==0){
+						conditional = false
+						break
+					}	
+				}
+				if(conditional){
+					setTimeout(youWon,300)
+				}
+				
+			}
+			function disableButton(ide){
+				document.getElementById(ide).disabled = true
+			}
+			function youWon(){
+				alert("You Won \nYour Time : "+sec+"\nYour Score: "+totalScore)
+			}
+			function youLost(){
+				stopInput()
+				clearInterval(intervalId)
+				alert("You Lost")
+			}
+			function shuffleArray(array) {
+				for (var i = array.length - 1; i > 0; i--) {
+					var j = Math.floor(Math.random() * (i + 1));
+					var temp = array[i];
+					array[i] = array[j];
+					array[j] = temp;
+				}
+			}
+			function updateTime()
+			{
+				sec--
+				scoreForm.timer.value = sec
+				if(sec == 0)
+					setTimeout(youLost,100)
+			}
+			var sec = 60
+			var totalScore = 0
+			
+		</script>
+	</body>
+</html>
